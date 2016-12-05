@@ -110,6 +110,7 @@
 
 #### 3工厂模式
 * 工厂模式通过对产品类的抽象使其创建业务主要负责与创建多类产品的实例
+
 		// 安全工厂模式
 		var Factory = function(type,content){
 			if(this instanceof Factory){
