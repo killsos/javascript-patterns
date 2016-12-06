@@ -255,5 +255,231 @@
 
 		// 外观模式
 		function addEvent(dom,event,fn){
+			// 对于支持DOM2级事件处理 addEventListener
+			if（dom.addEventListener）{
+				dom.addEventListener(type,fn.false);
+			}else{
+				if(dom.attachEvent){
+					dom.attachEvent('on'type,fn);
+				}else{
+					dom['on'+type] = fn;
+				}
+			}
 		}
+		
+		attachEvent(fn1)
+		attachEvent(fn2)
+		attachEvent(fn3)
+		
+		run: fn3 fn2 fn1
+		
+		addEventListener(fn1)
+		addEventListener(fn2)
+		addEventListener(fn3)
+		
+		run:fn1 fn2 fn3
+		
+
+#### 9适配器模式
+* 适配器模式adapter将一个类(对象)的接口(方法或属性)转化成另外一个接口,以满足用户需求,使类(对象)之间接口的不兼容问题通过适配器得以解决。
+
+		// 参数适配器
+		
+		// 数据适配器
+		
+	
+
+#### 10代理模式
+* 代理模式proxy:由于一个对象不能直接引用另一个对象,所以需要通过代理对象在这两个对象之间起到中介的作用
+
+		// 站长统计---统计代理
+		var Count = (function(){
+			var _img = new Image();
+			return function(param){
+				var str = 'http://www.count.com/a.gif';
+				for（var i in param）{
+					str += i + '=' + param[i]
+				}
+				_img.src = str;
+			}
+		})();
+		
+		Count({num:10});
+		
+		
+
+#### 11装修者模式
+* 装修者模式Decorator在不改变原有对象的基础上,通过对其进行包装拓展(添加属性或者方法)使原有对象可以满足用户的更复杂需求
+
+		// 装饰者
+		var decorator = function(input,fn){
+			var input = document.querySelector(input);
+			if（typeof input.onclick ==== 'function'）{
+				var oldClickFn = input.onlick;
+				input.onclick = funciton(){
+					oldClickFn();
+					fn();
+				};
+			}else{
+				input.onclick = fn;
+			}
+		};
+		
+
+#### 12桥接模式
+* 桥接模式Bridge在系统沿着多个维度变化的同时,又不增加其复杂度并已达到解耦
+* 将事件与业务逻辑之间的桥梁
+
+
+#### 13组合模式
+* 组合模式composite 又称部分-整体模式 将对象组合成树形结构以表示"部分-整体"的层次结构,组合模式使得用户对单个对象和组合对象的使用具有一致性
+
+
+
+#### 14享元模式
+* 享元模式flyweight运用共享技术有效的支持大量的细粒度的对象,避免对象拥有相同内容造成多余的开销
+* 享元模式将数据和DOM分离,DOM包含了css和js,css代表外观 js代表行为
+
+
+#### 15模板方法模式
+* 模板方法方式Template Method是指父类中定义一组操作算法骨架,而将一些实现步骤延迟到子类中,
+	使得子类可以不改变父类的算法结构的同时可重新定义算法中某些实现步骤
+	
+	
+#### 16观察者模式
+* 观察者模式 又称为发布订阅模式或消息机制 定义了一种依赖关系,解决了主体对象与观察者之间功能的耦合
+
+		// 将观察者放在闭包中,当页面加载就立刻执行
+		var Observer = (function(){
+			var _message = {};
+			return {
+				// 注册信息接口
+				regist: function(type，args){
+					if（typeof _message[type] === "undefined"）{
+						_message[type] = [fn];
+					}else{
+						_message[type].push(fn);
+					}			
+				},
+				// 发布信息接口
+				fire  : function(type,args){
+					if(!_message[type])return;
+					
+					var event = {
+						type : type,
+						args : args || {}
+					},
+					i = 0,
+					len = _message[type].length;
+					
+					for(; i < len ; i++){
+						_message[type][i].call(this,args)
+					}
+				},
+				// 移除信息接口
+				remove: function(type,fn){
+					if(_message[type] instanceof Array){
+						var i = _message[type].length - 1;
+						for(; i > 0 ; i--){
+							_message[type][i] === fn && _message[type].splice(i,1);
+						}
+					}
+				}
+			}
+		})();
+		
+		
+
+
+#### 17状态模式
+* 状态模式state 当一个对象的内部状态发生改变时,会导致其行为的改变,这看起来像是改变了对象
+
+		// 投票结果状态对象
+		var ResultState = (function(){
+			var States = {
+				state0 : function(){},
+				...
+				stateN : function(){},
+			};
+			
+			function show(result){
+				States['state' + result] && States['state' + result]();
+			}
+		})();
+
+#### 18策略模式
+* 策略模式strategy 将定义的一组算法封装起来,使其相互之间可以替换。封装的算法具有一定独立性,不会随客户端变化而变化
+
+		// 价格策略模式
+		var PriceStrategy = (function(){
+			var strategy = {
+				return10:function(){},
+				...
+				returnN:function(){}
+			}
+			
+			return function(algorithm，price){
+				return strategy[algorithm] && strategy[algorithm](price);
+			}
+		})()
+
+
+#### 19职责链模式
+* 职责链模式chain of responsibility : 解决请求的发送者与请求的接收者之间的耦合,通过职责链上的多个对象对分解请求流程,
+	实现请求在多个对象之间的传递,知道最后一个对象完成请求的处理。
+
+
+#### 20命令模式
+* 命令模式command 将请求与实现解耦并封装成独立对象,从而使不同的请求对客户端的实现参数化.
+	
+		// 命令对象
+		// 模块实现模块
+		var ViewCommand = (function(){
+			// 方法集合
+			var Action = {
+				create : function(){},
+				display : function(){}
+			}
+			
+			return function execute(){};
+		})();
+		
+		// 视图创建
+		// 模块实现模块
+		var ViewCommand = (function(){
+			var tpl = {
+				'product':[].join(""),
+				'title'  :[].join("")
+			};
+			
+			var html = '';
+			
+			function formateString(str,obj){
+				return str.replace(/\#(\w+)\#/g,function(match,key){
+					return  obj[key]
+				})
+			}
+			// 方法集合
+			var Action = {}
+			
+			return function execute(){};
+		})();
+		
+
+#### 21访问者模式
+* 访问者模式visitor：针对于对象结构中元素,定义在不改变对象的前提下访问结构中元素的新方法
+
+
+
+#### 22中介者模式
+* 中介者模式mediator通过中介者对象封装一系列对象之间的交互,使对象之间不再相互引用,降低他们之间的耦合,有时中介者对象也可以改变对象之间的交互.
+
+
+#### 23备忘录模式
+* 本质就是缓存  备忘录模式Memento 在不破坏对象的封装性的前提下,在对象之外捕获并保存该对象内部的状态以便日后对象使用或者对象恢复到以前的某个状态
+* 在对象中设置cache 执行之前先判断cache是否有 然后在决定一下步如何做
+
+
+#### 24迭代器模式
+* 迭代器模式iterator 在不暴露对象内部结构的同时,可以顺序的访问聚合对象内部的元素
 
